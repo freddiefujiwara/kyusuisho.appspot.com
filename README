@@ -5,6 +5,6 @@ http://googleappengine.googlecode.com/files/google_appengine_1.4.2.zip
  $ find google_appengine -type f | grep py$ | xargs chmod 755
  $ mv google_appengine /usr/share
  $ PATH=$PATH:/usr/share/google_appengine
- $ git clone 
+ $ git clone git://github.com/zegenvs/kyusuisho.appspot.com.git kyusuisho
 更新方法
 
