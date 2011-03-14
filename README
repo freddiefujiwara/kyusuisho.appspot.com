@@ -1,0 +1,10 @@
+環境構築方法
+-Google App Engine SDK for Python
+http://googleappengine.googlecode.com/files/google_appengine_1.4.2.zip
+ $ unzip google_appengine_1.4.2.zip
+ $ find google_appengine -type f | grep py$ | xargs chmod 755
+ $ mv google_appengine /usr/share
+ $ PATH=$PATH:/usr/share/google_appengine
+ $ git clone 
+更新方法
+
