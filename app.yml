@@ -10,3 +10,6 @@ handlers:
 - url: /images/qr.jpg
   static_files: images/qr.jpg
   upload: images/qr.jpg
+- url: /favicon.ico
+  static_files: images/favicon.ico
+  upload: images/favicon.ico
