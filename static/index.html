@@ -238,13 +238,13 @@
 
       <p><a href="http://twitter.com/share" class=
       "twitter-share-button" data-text=
-      "給水所Googleマイマップまとめ" data-count=
+      "給水所Googleマップ" data-count=
       "horizontal" data-via="kyusuisho" data-lang=
       "ja">Tweet</a><script type="text/javascript" src=
       "http://platform.twitter.com/widgets.js">
 </script></p>
 
-      <p><img src="/images/qr.jpg" /></p>
+      <p id="qr"></p>
     </div>
 
     <div data-role="footer"></div>
@@ -268,7 +268,7 @@
 
       <p><a href="http://twitter.com/share" class=
       "twitter-share-button" data-text=
-      "給水所Googleマイマップまとめ" data-count=
+      "給水所Googleマップ" data-count=
       "horizontal" data-via="kyusuisho" data-lang=
       "ja">Tweet</a><script type="text/javascript" src=
       "http://platform.twitter.com/widgets.js">
@@ -319,6 +319,7 @@
   };
   $(".link").each(function(){$(this).attr("href",l[$(this).attr("id")])})
   $(".nosmartphone").remove();
+  $("#qr").append('<img src="/images/qr.jpg" />');
   //]]>
   </script><script type="text/javascript">
 //<![CDATA[
