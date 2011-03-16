@@ -184,6 +184,11 @@
             "hitachiota">常陸太田市</a></li>
 
             <li><a href=
+            "http://genokita.sakura.ne.jp/googlemymaps/mymap.php?msid=200959881744122935336.00049e8d640bd880ea88d"
+            id="ishioka" class="link" name=
+            "ishioka">石岡市</a></li>
+
+            <li><a href=
             "http://genokita.sakura.ne.jp/googlemymaps/mymap.php?msid=205722668188210290269.00049e6f274e10d903e09"
             id="ibaraki" class="link" name=
             "ibaraki">茨城町</a></li>
@@ -218,6 +223,10 @@
             <li><a href=
             "http://genokita.sakura.ne.jp/googlemymaps/mymap.php?msid=206069112710020960059.00049e80bf3bdaf7002af"
             id="asahi" class="link" name="asahi">旭市</a></li>
+
+            <li><a href=
+            "http://genokita.sakura.ne.jp/googlemymaps/mymap.php?msid=205722668188210290269.00049e92b3c138c189fda"
+            id="katori" class="link" name="katori">香取市</a></li>
           </ul>
         </li>
 
@@ -250,6 +259,8 @@
       <ul data-role="listview">
         <li><a href=
         "http://utakata2006.sakura.ne.jp/201103/">被災時の生活支援情報</a></li>
+        <li class="nosmartphone"><a href=
+        "http://rd.paqa.jp/int/MERruiAViq">PAQA（パクア）災害情報</a></li>
       </ul>
 
       <p>その他情報がありましたら<a href=
@@ -263,7 +274,6 @@
       "http://platform.twitter.com/widgets.js">
 </script></p>
 
-      <p><img src="/images/qr.jpg" /></p>
     </div>
 
     <div data-role="footer"></div>
@@ -303,9 +313,12 @@
         'kasama':'http://maps.google.com/maps/ms?ie=UTF8&hl=en&msa=0&msid=206069112710020960059.00049e8cfae0098932e25&ll=36.397106,140.275154&spn=0.079312,0.15398&z=13',
         'daigo':'http://maps.google.com/maps/ms?ie=UTF8&hl=en&msa=0&msid=206069112710020960059.00049e8d0e0aa71a15682&ll=36.816981,140.375748&spn=0.298484,0.615921&z=11',
         'yuki':'http://maps.google.com/maps/ms?ie=UTF8&hl=en&msa=0&msid=206069112710020960059.00049e8d280247ecbf859&ll=36.304335,139.876556&spn=0.150236,0.307961&z=12',
-        'hitachiota':'http://maps.google.co.jp/maps/ms?hl=ja&ie=UTF8&brcurrent=3,0x605d1b87f02e57e7:0x2e01618b22571b89,0&msa=0&msid=200959881744122935336.00049e7e190f1c40b2d4a&ll=36.653547,140.591354&spn=0.300222,0.615921&z=11'
+        'hitachiota':'http://maps.google.co.jp/maps/ms?hl=ja&ie=UTF8&brcurrent=3,0x605d1b87f02e57e7:0x2e01618b22571b89,0&msa=0&msid=200959881744122935336.00049e7e190f1c40b2d4a&ll=36.653547,140.591354&spn=0.300222,0.615921&z=11',
+        'ishioka':'http://maps.google.com/maps/ms?hl=ja&ie=UTF8&msa=0&msid=200959881744122935336.00049e8d640bd880ea88d&ll=36.19278,140.285164&spn=0.006381,0.009828&z=17&iwloc=00049e8d761c65abe5443',
+        'katori':'http://maps.google.co.jp/maps/ms?ie=UTF8&hl=ja&brcurrent=3,0x60229b5fd61b9511:0x1cb677dbffe07bbe,0&msa=0&msid=205722668188210290269.00049e92b3c138c189fda&ll=35.872916,140.577278&spn=0.151619,0.307961&z=12'
   };
   $(".link").each(function(){$(this).attr("href",l[$(this).attr("id")])})
+  $(".nosmartphone").remove();
   //]]>
   </script><script type="text/javascript">
 //<![CDATA[
