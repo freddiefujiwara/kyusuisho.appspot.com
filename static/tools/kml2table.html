@@ -3,8 +3,6 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta name="generator" content=
-  "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org" />
   <meta http-equiv="content-type" content=
   "text/html; charset=UTF-8" />
   <script src="http://code.jquery.com/jquery-1.5.min.js" type=
@@ -26,6 +24,9 @@
   </form><script type="text/javascript">
 //<![CDATA[
   $("#submit").click(function(){
+  if($("#table")){
+	$("#table").remove();
+  }
   $.ajax({
   url : 'http://pipes.yahoo.com/pipes/pipe.run',
   data : {
@@ -41,6 +42,7 @@
     var geocoder = new google.maps.Geocoder();
     $(document.body).append($("<h2>これをExcelに貼りつけたりして活用してください</h2>"));
     var table = $("<table />");
+    table.attr("id","table");
     table.css("border","1px solid");
     table.css("background-color","#ddd");
     $(document.body).append(table);
