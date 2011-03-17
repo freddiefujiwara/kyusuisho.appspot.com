@@ -13,3 +13,6 @@ handlers:
 - url: /favicon.ico
   static_files: images/favicon.ico
   upload: images/favicon.ico
+- url: /tools/kml2table
+  static_files: static/tools/kml2table.html
+  upload: static/tools/kml2table.html
