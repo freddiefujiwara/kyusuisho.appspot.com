@@ -1,20 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-#
-# Copyright 2007 Google Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from google.appengine.ext import db
@@ -23,6 +8,50 @@ import gdata.spreadsheet.text_db
 class Page(db.Model):
   page_id = db.IntegerProperty()
   html = db.TextProperty()
+
+class MakeXML:
+
+    def make(self):
+      client = gdata.spreadsheet.text_db.DatabaseClient('kyusuisho.appspot.com@gmail.com', 'ohsiusuyk')
+      db = client.GetDatabases(name=u'kyusuisho.appspot.com')[0]
+      xml=MakeXML.make_xml(db.GetTables(name=u'root')[0])
+      page = Page.gql('WHERE page_id = :1', 10).get()
+      if page is None:
+        page = Page(page_id=10,html=xml)
+      else:
+        page.xml = xml
+      page.put()
+
+    @classmethod
+    def xml_escape(cls,text):
+      MakeXML.xml_escape_table = {
+        u"&": u"&amp;",
+        u'"': u"&quot;",
+        u"'": u"&apos;",
+        u">": u"&gt;",
+        u"<": u"&lt;",
+      }
+      return u"".join(MakeXML.xml_escape_table.get(c,c) for c in text)
+
+    @classmethod
+    def make_xml(cls,table):
+      xml = u"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<document>"
+      scripts = []
+      current_prefecture = u"";
+      for record in table.GetRecords(1, 999999999):
+        if current_prefecture != record.content[u"都道府県"]:
+          xml += u"" if u"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<document>" == xml else u"</prefecture>" 
+          current_prefecture =  record.content[u"都道府県"]
+          xml += u"<prefecture><name>"+MakeXML.xml_escape(current_prefecture)+u"</name>"
+        xml+= u"<area>"
+        xml+= u"<id>"+MakeXML.xml_escape(record.content[u"マップid英数字"])+u"</id>"
+        xml+= u"<name>"+MakeXML.xml_escape(record.content[u"市区町村"])+u"</name>"
+        xml+= u"<link>"+MakeXML.xml_escape(record.content[u"マップurl"])+u"</link>"
+        xml+= u"<mobile_link>"+MakeXML.xml_escape(record.content[u"携帯マップurl"])+u"</mobile_link>"
+        xml+= u"</area>"
+      xml += u"</prefecture></document>"
+      return xml
+
 
 class MakeHTML:
 
@@ -70,6 +99,14 @@ class MakeHTML:
       html += u'};</script>'
       return html
 
+class MakeXMLHandler(webapp.RequestHandler):
+    
+    def __init__(self):
+        self.application = MakeXML()
+    
+    def get(self):
+        self.application.make()
+
 class MakeHTMLHandler(webapp.RequestHandler):
     
     def __init__(self):
@@ -79,7 +116,7 @@ class MakeHTMLHandler(webapp.RequestHandler):
         self.application.make()
 
 def main():
-    application = webapp.WSGIApplication([('/crons/make_html', MakeHTMLHandler)],
+    application = webapp.WSGIApplication([('/crons/make_html', MakeHTMLHandler),('/crons/make_xml', MakeXMLHandler)],
                                          debug=True)
     util.run_wsgi_app(application)
 

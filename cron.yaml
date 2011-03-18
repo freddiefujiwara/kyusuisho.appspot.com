@@ -2,3 +2,7 @@ cron:
 - description: create html from spread job
   url: /crons/make_html
   schedule: every 1 minutes
+
+- description: create xml from spread job
+  url: /crons/make_xml
+  schedule: every 1 minutes

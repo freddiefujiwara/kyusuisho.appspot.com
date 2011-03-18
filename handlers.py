@@ -17,8 +17,14 @@ class MainPage(webapp.RequestHandler):
     path = os.path.join(os.path.dirname(__file__), 'static/index.html')
     self.response.out.write(template.render(path, template_values))
 
+class APIPage(webapp.RequestHandler):
+  def get(self):
+    page = Page.gql('WHERE page_id = :1', 10).get()
+    self.response.headers['Content-Type'] = 'text/xml'
+    self.response.out.write(page.html)
+
 application = webapp.WSGIApplication(
-                                     [('/', MainPage)],
+                                     [('/', MainPage),('/api.xml', APIPage)],
                                      debug=True)
 
 def main():
