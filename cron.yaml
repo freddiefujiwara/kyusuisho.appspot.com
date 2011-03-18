@@ -1,8 +1,8 @@
 cron:
-- description: create html from spread job
-  url: /crons/make_html
+- description: create html,xml,Map.db from spread job
+  url: /crons/crawl_spread
   schedule: every 1 minutes
 
-- description: create xml from spread job
-  url: /crons/make_xml
-  schedule: every 1 minutes
+- description: create max|min_lat|lng from map kml job
+  url: /crons/crawl_map
+  schedule: every 1 hours

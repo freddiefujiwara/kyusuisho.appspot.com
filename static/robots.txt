@@ -1,0 +1,5 @@
+User-Agent: *
+Disallow: /images/
+Disallow: /tools/
+Disallow: /crons/
+Disallow: /apis/
