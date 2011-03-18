@@ -1,0 +1,4 @@
+cron:
+- description: create html from spread job
+  url: /crons/make_html
+  schedule: every 1 minutes

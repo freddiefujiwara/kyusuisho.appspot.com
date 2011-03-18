@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content=
+  "text/html; charset=UTF-8" />
+  <script src="http://code.jquery.com/jquery-1.5.min.js" type=
+  "text/javascript">
+</script>
+</script>
+
+  <title>現在掲載されている自治体マップからテーブルに変換</title>
+</head>
+
+<body>
+  <h1>現在掲載されている自治体マップからテーブルに変換</h1>
+
+  <script type="text/javascript">
+//<![CDATA[
+  $.ajax({
+  url : 'http://query.yahooapis.com/v1/public/yql',
+  data : {
+    q : 'select * from html where url="http://kyusuisho.appspot.com///"  and xpath="//script[@id=\'gmaps\']"',
+    format : 'json',
+    diagnostics:'true'
+    
+  },
+  dataType : 'jsonp',
+  complete : function(){
+  },
+  success : function(data, status){
+    var script = $("<script type='text/javascript' />");
+    script.html(data.query.results.script.content);
+    $(document.body).append(script);
+    $.ajax({
+    url : 'http://query.yahooapis.com/v1/public/yql',
+    data : {
+      q : 'select * from html where url="http://kyusuisho.appspot.com"  and xpath="//a[@class=\'link\']"',
+      format : 'json',
+      diagnostics:'true'
+      
+    },
+    dataType : 'jsonp',
+    complete : function(){
+    },
+    success : function(data, status){
+      var table = $("<table />");
+      table.css("border","1px solid");
+      table.css("background-color","#ddd");
+      var th = $("<tr/>");
+      th.append("<th>マップID(英数字)</th>");
+      th.append("<th>更新時間</th>");
+      th.append("<th>都道府県</th>");
+      th.append("<th>市区町村</th>");
+      th.append("<th>マップURL</th>");
+      th.append("<th>携帯マップURL</th>");
+      table.append(th);
+      $.each(data.query.results.a,function(){
+        var tr = $("<tr/>");
+        tr.append("<td>"+$(this)[0].id+"</td>");
+        tr.append("<td/>");
+        tr.append("<td/>");
+        tr.append("<td>"+$(this)[0].content+"</td>");
+        tr.append("<td>"+l[$(this)[0].id]+"</td>");
+        tr.append("<td>"+$(this)[0].href+"</td>");
+        table.append(tr);
+      });
+      $(document.body).append(table);
+    },
+    });
+  },
+  });
+  //]]>
+  </script>
+</body>
+</html>

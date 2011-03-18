@@ -3,6 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   <script src="http://code.jquery.com/jquery-1.5.min.js" type=
   "text/javascript">
 </script>
@@ -25,6 +26,9 @@
   if($("#table")){
 	$("#table").remove();
   }
+  if($("#h2")){
+	$("#h2").remove();
+  }
   $.ajax({
   url : 'http://pipes.yahoo.com/pipes/pipe.run',
   data : {
@@ -38,7 +42,7 @@
   },
   success : function(data, status){
     var geocoder = new google.maps.Geocoder();
-    $(document.body).append($("<h2>これをExcelに貼りつけたりして活用してください</h2>"));
+    $(document.body).append($("<h2 id='h2'>これをExcelに貼りつけたりして活用してください</h2>"));
     var table = $("<table />");
     table.attr("id","table");
     table.css("border","1px solid");

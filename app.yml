@@ -4,15 +4,25 @@ runtime: python
 api_version: 1
 
 handlers:
-- url: /
-  static_files: static/index.html
-  upload: static/index.html
 - url: /images/qr.jpg
   static_files: images/qr.jpg
   upload: images/qr.jpg
+
 - url: /favicon.ico
   static_files: images/favicon.ico
   upload: images/favicon.ico
+
 - url: /tools/kml2table
   static_files: static/tools/kml2table.html
   upload: static/tools/kml2table.html
+
+- url: /tools/list2table
+  static_files: static/tools/list2table.html
+  upload: static/tools/list2table.html
+
+- url: /crons/.*
+  script: crons.py
+  login: admin
+
+- url: /.*
+  script: handlers.py
