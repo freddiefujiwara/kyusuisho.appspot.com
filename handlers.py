@@ -20,6 +20,7 @@ class Map(db.Model):
   max_lat = db.FloatProperty()
   mid_lat = db.FloatProperty()
   min_lat = db.FloatProperty()
+  order   = db.IntegerProperty()
 
 class MainPage(webapp.RequestHandler):
   def get(self):
@@ -78,8 +79,44 @@ class NearestAPI(webapp.RequestHandler):
     }
     return u"".join(NearestAPI.xml_escape_table.get(c,c) for c in text)
 
+class AllDataAPI(webapp.RequestHandler):
+  def get(self):
+    self.response.headers['Content-Type'] = 'text/xml'
+    xml = u"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<document>"
+    for gmap in Map.all():
+      xml+= u"<area>"
+      xml+= u"<id>"+AllDataAPI.xml_escape(gmap.map_id)+u"</id>"
+      xml+= u"<prefecture>"+AllDataAPI.xml_escape(gmap.prefecture)+u"</prefecture>"
+      xml+= u"<city>"+AllDataAPI.xml_escape(gmap.city)+u"</city>"
+      xml+= u"<map_url>"+AllDataAPI.xml_escape(gmap.map_url)+u"</map_url>"
+      xml+= u"<mobile_map_url>"+AllDataAPI.xml_escape(gmap.mobile_map_url)+u"</mobile_map_url>"
+      xml+= u"<max_lat>"+str(gmap.max_lat)+u"</max_lat>"
+      xml+= u"<max_lng>"+str(gmap.max_lng)+u"</max_lng>"
+      xml+= u"<mid_lat>"+str(gmap.mid_lat)+u"</mid_lat>"
+      xml+= u"<mid_lng>"+str(gmap.mid_lng)+u"</mid_lng>"
+      xml+= u"<min_lat>"+str(gmap.min_lat)+u"</min_lat>"
+      xml+= u"<min_lng>"+str(gmap.min_lng)+u"</min_lng>"
+      xml+= u"<order>"+str(gmap.order)+u"</order>"
+      xml+= u"</area>"
+    xml+= u"</document>"
+    self.response.out.write(xml)
+
+  @classmethod
+  def xml_escape(cls,text):
+    AllDataAPI.xml_escape_table = {
+      u"&": u"&amp;",
+      u'"': u"&quot;",
+      u"'": u"&apos;",
+      u">": u"&gt;",
+      u"<": u"&lt;",
+    }
+    return u"".join(AllDataAPI.xml_escape_table.get(c,c) for c in text)
+
 application = webapp.WSGIApplication(
-                                     [('/', MainPage),('/apis/areas.xml', AreasAPI),('/apis/nearest.xml', NearestAPI)],
+                                     [('/', MainPage),
+                                      ('/apis/all.xml', AllDataAPI),
+                                      ('/apis/areas.xml', AreasAPI),
+                                      ('/apis/nearest.xml', NearestAPI)],
                                      debug=True)
 
 def main():

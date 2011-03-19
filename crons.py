@@ -23,6 +23,7 @@ class Map(db.Model):
   max_lat = db.FloatProperty()
   mid_lat = db.FloatProperty()
   min_lat = db.FloatProperty()
+  order   = db.IntegerProperty()
 
 class CrawlMap:
 
@@ -36,12 +37,20 @@ class CrawlMap:
           lnglat = record["author"].split(",")
           lngs.append(lnglat[0])
           lats.append(lnglat[1])
-        gmap.max_lng = float(max(lngs))
-        gmap.min_lng = float(min(lngs))
-        gmap.mid_lng = gmap.min_lng + (gmap.max_lng-gmap.min_lng)/2
-        gmap.max_lat = float(max(lats))
-        gmap.min_lat = float(min(lats))
-        gmap.mid_lat = gmap.min_lat + (gmap.max_lat-gmap.min_lat)/2
+        if 0 < len(lngs) and 0 < len(lats):
+          gmap.max_lng = float(max(lngs))
+          gmap.min_lng = float(min(lngs))
+          gmap.mid_lng = gmap.min_lng + (gmap.max_lng-gmap.min_lng)/2
+          gmap.max_lat = float(max(lats))
+          gmap.min_lat = float(min(lats))
+          gmap.mid_lat = gmap.min_lat + (gmap.max_lat-gmap.min_lat)/2
+        else:
+          gmap.max_lng = 0.0
+          gmap.min_lng = 0.0
+          gmap.mid_lng = 0.0
+          gmap.max_lat = 0.0
+          gmap.min_lat = 0.0
+          gmap.mid_lat = 0.0
         gmap.put()
 
 class CrawlSpread:
@@ -67,6 +76,7 @@ class CrawlSpread:
         page.html = html
       page.put()
 
+      order = 0
       for record in table.GetRecords(1, 999999999):
         gmap = Map.gql('WHERE map_id = :1',record.content[u"マップid英数字"] ).get()
         if gmap is None:
@@ -75,13 +85,22 @@ class CrawlSpread:
                      city          =record.content[u"市区町村"],
                      map_url       =record.content[u"マップurl"],
                      mobile_map_url=record.content[u"携帯マップurl"],
+                     max_lng = 0.0,
+                     min_lng = 0.0,
+                     mid_lng = 0.0,
+                     max_lat = 0.0,
+                     min_lat = 0.0,
+                     mid_lat = 0.0,
+                     order         = order
                     )
         else:
           gmap.prefecture    =record.content[u"都道府県"]
           gmap.city          =record.content[u"市区町村"]
           gmap.map_url       =record.content[u"マップurl"]
           gmap.mobile_map_url=record.content[u"携帯マップurl"]
+          gmap.order         = order
         gmap.put()
+        order = order + 1
               
 
     @classmethod
